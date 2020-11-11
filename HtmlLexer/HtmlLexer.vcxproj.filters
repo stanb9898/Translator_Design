@@ -18,9 +18,18 @@
     <None Include="html.lex">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="input.csrc">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="html.y">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="symbols.h">
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="html.tab.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -29,7 +38,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="lex.yy.c">
-      <Filter>Resource Files</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="html.tab.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

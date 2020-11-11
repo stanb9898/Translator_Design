@@ -1,21 +1,29 @@
-// SimpleCLexer.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <stdio.h>
-#include "symbols.h"
+#include "html.tab.h"
 #include <errno.h>
-
 extern FILE* yyin;
-extern int yylex(void);
+//extern int yylex(void);
+extern int yyparse(void);
+extern int yydebug;
 
 const char* lexUnits[] = { 
+							"HTMLDOCUMENT",
+							"HTMLOPEN",
+							"HEADOPEN",
+							"HEADCLOSE",
+							"TITLEOPEN",
+							"TITLECLOSE",
 							"BODYOPEN",
-							"BODYCLOSE",
+							"BODYCONTENT",
+							"FRAMEOPEN",
+							"FRAMECLOSE",
 							"FRAMESETOPEN",
 							"FRAMESETCLOSE",
-							"FRAMESOPEN",
-							"FRAMESCLOSE",
+							"NOFRAMESOPEN",
+							"NOFRAMESCLOSE",
 							"FORMOPEN",
+							"DDOPEN",
+							"DDCLOSE",
 							"FORMCLOSE",
 							"INPUTOPEN",
 							"INPUTCLOSE",
@@ -37,8 +45,18 @@ const char* lexUnits[] = {
 							"CENTERCLOSE",
 							"FONTOPEN",
 							"FONTCLOSE",
-							"HNOPEN",
-							"HNCLOSE",
+							"H1OPEN",
+							"H1CLOSE",
+							"H2OPEN",
+							"H2CLOSE",
+							"H3OPEN",
+							"H3CLOSE",
+							"H4OPEN",
+							"H4CLOSE",
+							"H5OPEN",
+							"H5CLOSE",
+							"H6OPEN",
+							"H6CLOSE",
 							"HROPEN",
 							"HRCLOSE",
 							"TROPEN",
@@ -65,35 +83,175 @@ const char* lexUnits[] = {
 							"PCLOSE",
 							"IOPEN",
 							"ICLOSE",
-							"UOPEN",
-							"UCLOSE",
 							"BROPEN",
 							"BRCLOSE",
 							"LINKOPEN",
-							"LINKCLOSE"
-
-							"END_OF_INSTRUCTION" };
-
+							"LINKCLOSE",
+							" HEADING",
+							"TEXT",
+						     "ISINDEX",
+							"BASEFONTOPEN",
+							"BASEFONTCLOSE",
+							"BLOCKQUOTEOPEN",
+							"BLOCKQUOTECLOSE",
+							"DIROPEN",
+							"DIRCLOSE",
+							"DIVOPEN",
+							"DIVCLOSE",
+							"DLOPEN",
+							"DLCLOSE",
+							" LISTINGOPEN",
+							"LISTINGCLOSE",
+							" MENUOPEN",
+							"MENUCLOSE",
+							" MULTICOLOPEN",
+							"MULTICOLCLOSE",
+							"NOBROPEN",
+							"NOBRCLOSE",
+							"PREOPEN",
+							"PRECLOSE"
+							"XMPOPEN",
+							"XMPCLOSE",
+							"FLOW",
+							"STYLEOPEN",
+							"STYLECLOSE",
+							"HR",
+							"BR",
+							"STYLEOPEN",
+							"STYLECLOSE",
+							"LITERALTEXT",
+							"BODYCLOSE",
+							"HTMLCLOSE",
+							"PLAINTEXT",
+						    "ABBRATTR",
+							"ACCEPTCHARSETATTR",
+							"ACCEPTATTR",
+							"ACCESSKEYATTR",
+							"ACTIONATTR",
+							"ALIGNATTR",
+							"ALINKATTR",
+							"ALTATTR",
+							"AXISATTR",
+							"BACKGROUNDATTR",
+							"BGCOLORATTR",
+							"BORDERATTR",
+							"CELLPADDINGATTR",
+							"CELLSPACINGATTR",
+							"CHARATTR",
+							"CHAROFFATTR",
+							"CHARSETATTR",
+							"CHECKEDATTR",
+							"CLASSATTR",
+							"CLEARATTR",
+							"COLORATTR",
+							"COLSATTR",
+							"COLSPANATTR",
+							"COMPACTATTR",
+							"COORDSATTR",
+							"DIRATTR",
+							"DISABLEDATTR",
+							"ENCTYPEATTR",
+							"FACEATTR",
+							"FRAMEATTR",
+							"FRAMEBORDERATTR",
+							"HEADERSATTR",
+							"HEIGHTATTR",
+							"HREFATTR",
+							"HREFLANGATTR",
+							"HSPACEATTR",
+							"IDATTR",
+							"ISMAPATTR",
+							"LABELATTR",
+							"LANGATTR",
+							"LINKATTR",
+							"LONGDESCATTR",
+							"MARGINHEIGHTATTR",
+							"MARGINWIDTHATTR",
+							"MAXLENGHTATTR",
+							"MEDIAATTR",
+							"METHODATTR",
+							"MULTPLEATTR",
+							"NAMEATTR",
+							"NORESIZEATTR",
+							"NOWRAPATTR",
+							"ONBLURATTR",
+							"ONCHANGEATTR",
+							"ONCLICKATTR",
+							"ONDBCLICKATTR",
+							"ONFOCUSATTR",
+							"ONKEYDOWNATTR"
+							"ONKEYPRESSATTR",
+							"ONKEYUPATTR",
+							"ONLOADATTR",
+							"ONMOUSEDOWNATTR",
+							"ONMOUSEMOVEATTR",
+							"ONMOUSEOUTATTR",
+							"ONMOUSEOVERATTR",
+							"ONMOUSEUPATTR",
+							"ONRESETATTR",
+							"ONSELECTATTR",
+							"ONSUBMITATTR",
+							"ONUNLOADATTR",
+							"PROFILEATTR",
+							"READONLYATTR",
+							"RELATTR",
+							"REVATTR",
+							"ROWSATTR",
+							"ROWSPANATTR",
+							"RULESATTR",
+							"SCOPEATTR",
+							"SCROLLINGATTR",
+							"SELECTEDATTR",
+							"SHAPEATTR",
+							"SIZEATTR",
+							"SRCATTR",
+							"STARTATTR",
+							"STYLEATTR",
+							"SUMMARYATTR",
+							"TABINDEXATTR",
+							"TARGETATTR",
+							"TEXTATTR",
+							"TITLEATTR",
+							"TYPEATTR",
+							"USEMAPATTR",
+							"VALIGNATTR",
+							"VALUEATTR",
+							"VLINKATTR",
+							"VSPACEATTR",
+							"WIDTHATTR",
+							"OPTGROUPOPEN",
+							"OPTGROUPCLOSE",
+							"END",
+							"END_OF_INSTRUCTION"
+ };
 int main()
-{
+	{
+	yydebug = 1;
 	int tokenValue = 0;
 	yyin = fopen("input.csrc", "rt");
 	if (yyin != NULL)
 	{
-		while ((tokenValue = yylex()) != 0)
+	int result = yyparse();
+		switch (result)
 		{
-			printf(" -> TOKEN ID: %d; Token Value: %s \n", tokenValue, lexUnits[tokenValue]);
+			case 0:
+			printf("Parse successfull. \n");
+			break;
+			case 1:
+			printf("Invalid input encountered \n");
+			break;
+			case 2:
+			printf("Out of memory \n");
+			break;
+			default:
+			break;
 		}
+
+	fclose(yyin);
 	}
-	else
-	{
-		printf("Fisierul de intrare nu poate fi deschis. Eroare: %d", errno);
-	}
+		else
+		{
+		printf("Fisier inexistent");
+		}
 
-
-}
-
-int yylex(void)
-{
-	return 0;
 }

@@ -1,20 +1,17 @@
 #include <stdio.h>
+//#include "symbols.h"
 #include "html.tab.h"
 #include <errno.h>
-extern FILE* yyin;
+
+extern FILE * yyin;
 //extern int yylex(void);
 extern int yyparse(void);
 extern int yydebug;
 
-const char* lexUnits[] = { 
-							"HTMLDOCUMENT",
-							"HTMLOPEN",
-							"HEADOPEN",
-							"HEADCLOSE",
-							"TITLEOPEN",
-							"TITLECLOSE",
+
+const char* lexUnits[] = { "ENDTAG",
 							"BODYOPEN",
-							"BODYCONTENT",
+							"BODYCLOSE",
 							"FRAMEOPEN",
 							"FRAMECLOSE",
 							"FRAMESETOPEN",
@@ -22,8 +19,6 @@ const char* lexUnits[] = {
 							"NOFRAMESOPEN",
 							"NOFRAMESCLOSE",
 							"FORMOPEN",
-							"DDOPEN",
-							"DDCLOSE",
 							"FORMCLOSE",
 							"INPUTOPEN",
 							"INPUTCLOSE",
@@ -87,43 +82,8 @@ const char* lexUnits[] = {
 							"BRCLOSE",
 							"LINKOPEN",
 							"LINKCLOSE",
-							" HEADING",
-							"TEXT",
-						     "ISINDEX",
-							"BASEFONTOPEN",
-							"BASEFONTCLOSE",
-							"BLOCKQUOTEOPEN",
-							"BLOCKQUOTECLOSE",
-							"DIROPEN",
-							"DIRCLOSE",
-							"DIVOPEN",
-							"DIVCLOSE",
-							"DLOPEN",
-							"DLCLOSE",
-							" LISTINGOPEN",
-							"LISTINGCLOSE",
-							" MENUOPEN",
-							"MENUCLOSE",
-							" MULTICOLOPEN",
-							"MULTICOLCLOSE",
-							"NOBROPEN",
-							"NOBRCLOSE",
-							"PREOPEN",
-							"PRECLOSE"
-							"XMPOPEN",
-							"XMPCLOSE",
-							"FLOW",
-							"STYLEOPEN",
-							"STYLECLOSE",
-							"HR",
-							"BR",
-							"STYLEOPEN",
-							"STYLECLOSE",
-							"LITERALTEXT",
-							"BODYCLOSE",
-							"HTMLCLOSE",
-							"PLAINTEXT",
-						    "ABBRATTR",
+
+							"ABBRATTR",
 							"ACCEPTCHARSETATTR",
 							"ACCEPTATTR",
 							"ACCESSKEYATTR",
@@ -148,110 +108,113 @@ const char* lexUnits[] = {
 							"COLSPANATTR",
 							"COMPACTATTR",
 							"COORDSATTR",
-							"DIRATTR",
-							"DISABLEDATTR",
-							"ENCTYPEATTR",
-							"FACEATTR",
-							"FRAMEATTR",
-							"FRAMEBORDERATTR",
-							"HEADERSATTR",
-							"HEIGHTATTR",
-							"HREFATTR",
-							"HREFLANGATTR",
-							"HSPACEATTR",
-							"IDATTR",
-							"ISMAPATTR",
-							"LABELATTR",
-							"LANGATTR",
-							"LINKATTR",
-							"LONGDESCATTR",
-							"MARGINHEIGHTATTR",
-							"MARGINWIDTHATTR",
-							"MAXLENGHTATTR",
-							"MEDIAATTR",
-							"METHODATTR",
-							"MULTPLEATTR",
-							"NAMEATTR",
-							"NORESIZEATTR",
-							"NOWRAPATTR",
-							"ONBLURATTR",
-							"ONCHANGEATTR",
-							"ONCLICKATTR",
-							"ONDBCLICKATTR",
-							"ONFOCUSATTR",
-							"ONKEYDOWNATTR"
-							"ONKEYPRESSATTR",
-							"ONKEYUPATTR",
-							"ONLOADATTR",
-							"ONMOUSEDOWNATTR",
-							"ONMOUSEMOVEATTR",
-							"ONMOUSEOUTATTR",
-							"ONMOUSEOVERATTR",
-							"ONMOUSEUPATTR",
-							"ONRESETATTR",
-							"ONSELECTATTR",
-							"ONSUBMITATTR",
-							"ONUNLOADATTR",
-							"PROFILEATTR",
-							"READONLYATTR",
-							"RELATTR",
-							"REVATTR",
-							"ROWSATTR",
-							"ROWSPANATTR",
-							"RULESATTR",
-							"SCOPEATTR",
-							"SCROLLINGATTR",
-							"SELECTEDATTR",
-							"SHAPEATTR",
-							"SIZEATTR",
-							"SRCATTR",
-							"STARTATTR",
-							"STYLEATTR",
-							"SUMMARYATTR",
-							"TABINDEXATTR",
-							"TARGETATTR",
-							"TEXTATTR",
-							"TITLEATTR",
-							"TYPEATTR",
-							"USEMAPATTR",
-							"VALIGNATTR",
-							"VALUEATTR",
-							"VLINKATTR",
-							"VSPACEATTR",
-							"WIDTHATTR",
-							"OPTGROUPOPEN",
-							"OPTGROUPCLOSE",
-							"END",
-							"END_OF_INSTRUCTION"
- };
-int main()
-	{
-	yydebug = 1;
-	int tokenValue = 0;
-	yyin = fopen("input.csrc", "rt");
-	if (yyin != NULL)
-	{
-	int result = yyparse();
-		switch (result)
-		{
-			case 0:
-			printf("Parse successfull. \n");
-			break;
-			case 1:
-			printf("Invalid input encountered \n");
-			break;
-			case 2:
-			printf("Out of memory \n");
-			break;
-			default:
-			break;
-		}
+"DIRATTR",
+"DISABLEDATTR",
+"ENCTYPEATTR",
+"FACEATTR",
+"FRAMEATTR",
+"FRAMEBORDERATTR",
+"HEADERSATTR",
+"HEIGHTATTR",
+"HREFATTR",
+"HREFLANGATTR",
+"HSPACEATTR",
+"IDATTR",
+"ISMAPATTR",
+"LABELATTR",
+"LANGATTR",
+"LINKATTR",
+"LONGDESCATTR",
+"MARGINHEIGHTATTR",
+"MARGINWIDTHATTR",
+"MAXLENGHTATTR",
+"MEDIAATTR",
+"METHODATTR",
+"MULTPLEATTR",
+"NAMEATTR",
+"NORESIZEATTR",
+"NOWRAPATTR",
+"ONBLURATTR",
+"ONCHANGEATTR",
+"ONCLICKATTR",
+"ONDBCLICKATTR",
+"ONFOCUSATTR",
+"ONKEYDOWNATTR"
+"ONKEYPRESSATTR",
+"ONKEYUPATTR",
+"ONLOADATTR",
+"ONMOUSEDOWNATTR",
+"ONMOUSEMOVEATTR",
+"ONMOUSEOUTATTR",
+"ONMOUSEOVERATTR",
+"ONMOUSEUPATTR",
+"ONRESETATTR",
+"ONSELECTATTR",
+"ONSUBMITATTR",
+"ONUNLOADATTR",
+"PROFILEATTR",
+"READONLYATTR",
+"RELATTR",
+"REVATTR",
+"ROWSATTR",
+"ROWSPANATTR",
+"RULESATTR",
+"SCOPEATTR",
+"SCROLLINGATTR",
+"SELECTEDATTR",
+"SHAPEATTR",
+"SIZEATTR",
+"SRCATTR",
+"STARTATTR",
+"STYLEATTR",
+"SUMMARYATTR",
+"TABINDEXATTR",
+"TARGETATTR",
+"TEXTATTR",
+"TITLEATTR",
+"TYPEATTR",
+"USEMAPATTR",
+"VALIGNATTR",
+"VALUEATTR",
+"VLINKATTR",
+"VSPACEATTR",
+"WIDTHATTR",
+"HTMLOPEN",
+"HTMLCLOSE",
 
-	fclose(yyin);
-	}
+							"END_OF_INSTRUCTION" };
+
+int main()
+{
+	{
+		yydebug = 1;
+		int tokenValue = 0;
+		yyin = fopen("input.csrc", "rt");
+		if (yyin != NULL)
+		{
+			int result = yyparse();
+			switch (result)
+			{
+			case 0:
+				printf("Parse successfull. \n");
+				break;
+			case 1:
+				printf("Invalid input encountered \n");
+				break;
+			case 2:
+				printf("Out of memory \n");
+				break;
+			default:
+				break;
+			}
+
+			fclose(yyin);
+		}
 		else
 		{
-		printf("Fisier inexistent");
+			printf("Fisier inexistent");
 		}
+	}
+
 
 }

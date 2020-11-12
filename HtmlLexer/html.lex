@@ -12,12 +12,12 @@ image [/img/ig]
 
 html_open        (?i:<html>)
 html_close       (?i:<\/html>)
-head_open		(?i:<head>)
+head_open		 (?i:<head>)
 head_close       (?i:<\/head>)
 body_open        (?i:<body>)
 body_close       (?i:<\/body>)
-title_open         (?i:<title>)
-title_close        (?i:<\/title>)
+title_open       (?i:<title>)
+title_close      (?i:<\/title>)
 frame_open       (?i:<frame>)
 frame_close      (?i:<\/frame>)
 frameset_open    (?i:<frameset>)
@@ -194,12 +194,12 @@ width_attr                  (?i:width=\"[^\"]*\")
 
 "@**@"			      { comment(); }
 
-{html_open}                 {count(); return(HTMLOPEN); }
-{html_close}                {count(); return(HTMLCLOSE); }
+{html_open}         {count(); return(HTMLOPEN); }
+{html_close}        {count(); return(HTMLCLOSE); }
 {body_open}         {count(); return (BODYOPEN); }
 {body_close}        {count(); return (BODYCLOSE); }
-{head_open}			 {count(); return (HEADOPEN); }
-{head_close}			 {count(); return (HEADCLOSE); }
+{head_open}		    {count(); return (HEADOPEN); }
+{head_close}    	{count(); return (HEADCLOSE); }
 {frame_open}        {count(); return (FRAMEOPEN); }
 {frame_close}       {count(); return (FRAMECLOSE); }
 {frameset_open}     {count(); return (FRAMESETOPEN); }
